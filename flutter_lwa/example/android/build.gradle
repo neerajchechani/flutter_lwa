@@ -17,7 +17,7 @@ allprojects {
 }
 
 android {
-    namespace "com.sviluppoe-gate.flutter_lwa"
+    namespace "com.github.ayvazj.lwa_example"
 }
 
 rootProject.buildDir = '../build'
