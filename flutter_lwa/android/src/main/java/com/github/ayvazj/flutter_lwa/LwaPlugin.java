@@ -28,12 +28,12 @@ public class LwaPlugin implements FlutterPlugin, ActivityAware {
     // them functionally equivalent. Only one of onAttachedToEngine or registerWith will be called
     // depending on the user's project. onAttachedToEngine or registerWith must both be defined
     // in the same class.
-    public static void registerWith(Registrar registrar) {
-        final MethodChannel channel = new MethodChannel(registrar.messenger(), "lwa");
-        final Context applicationContext = registrar.activeContext().getApplicationContext();
-        final RequestContext requestContext = RequestContext.create(applicationContext);
-        channel.setMethodCallHandler(newMethodHandler(requestContext, applicationContext));
-    }
+    // public static void registerWith(Registrar registrar) {
+    //     final MethodChannel channel = new MethodChannel(registrar.messenger(), "lwa");
+    //     final Context applicationContext = registrar.activeContext().getApplicationContext();
+    //     final RequestContext requestContext = RequestContext.create(applicationContext);
+    //     channel.setMethodCallHandler(newMethodHandler(requestContext, applicationContext));
+    // }
 
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {

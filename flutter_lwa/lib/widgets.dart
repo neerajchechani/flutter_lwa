@@ -39,7 +39,7 @@ class _LwaButtonState extends State<LwaButton> {
         child: Container(
             width: 200,
             child: IconButton(
-              icon: Image(image: AssetImage(_btnImage, package: packageName)),
+              icon: Image(image: AssetImage(_btnImage, package: 'flutter_lwa')),
               iconSize: 50,
               onPressed: widget.onPressed,
             )));
