@@ -26,7 +26,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     namespace "com.github.ayvazj.flutter_lwa"
-    compileSdkVersion 28
+    compileSdkVersion 33
 
     lintOptions {
         disable 'InvalidPackage'
