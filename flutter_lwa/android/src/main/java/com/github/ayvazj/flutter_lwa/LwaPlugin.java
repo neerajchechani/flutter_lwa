@@ -13,7 +13,7 @@ import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 import io.flutter.plugin.common.MethodChannel;
 
 /**
- * LwaPlugin (Amazon Login)
+ * LwaPlugin
  */
 public class LwaPlugin implements FlutterPlugin, ActivityAware {
 
@@ -26,32 +26,38 @@ public class LwaPlugin implements FlutterPlugin, ActivityAware {
                 "com.github.ayvazj/flutter_lwa"
         );
 
-        // We'll initialize requestContext later when the activity is attached
-        channel.setMethodCallHandler(newMethodHandler(null, binding.getApplicationContext()));
+        Context context = binding.getApplicationContext();
+        requestContext = RequestContext.create(context);
+        channel.setMethodCallHandler(newMethodHandler(requestContext, context));
     }
 
     @Override
     public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-        // no-op
+        // Cleanup if needed
+    }
+
+    private static LwaMethodHandler newMethodHandler(final RequestContext requestContext,
+                                                     final @NonNull Context context) {
+        return new LwaMethodHandler(requestContext, context);
     }
 
     @Override
-    public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
-        if (binding.getActivity() instanceof FragmentActivity) {
-            FragmentActivity activity = (FragmentActivity) binding.getActivity();
-            requestContext = RequestContext.create(activity);
+    public void onAttachedToActivity(ActivityPluginBinding binding) {
+        Context activityContext = binding.getActivity();
+        if (activityContext instanceof FragmentActivity) {
+            requestContext = RequestContext.create(activityContext);
         } else {
-            throw new IllegalStateException("Amazon Login SDK requires a FragmentActivity.");
+            throw new IllegalStateException("Activity must extend FragmentActivity");
         }
     }
 
     @Override
     public void onDetachedFromActivityForConfigChanges() {
-        // no-op
+        // Optional cleanup
     }
 
     @Override
-    public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
+    public void onReattachedToActivityForConfigChanges(ActivityPluginBinding binding) {
         if (requestContext != null) {
             requestContext.onResume();
         }
@@ -59,11 +65,6 @@ public class LwaPlugin implements FlutterPlugin, ActivityAware {
 
     @Override
     public void onDetachedFromActivity() {
-        // no-op
-    }
-
-    private static LwaMethodHandler newMethodHandler(final RequestContext requestContext,
-                                                     final @NonNull Context context) {
-        return new LwaMethodHandler(requestContext, context);
+        // Optional cleanup
     }
 }
